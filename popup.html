@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Print Assistant</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 380px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      font-size: 14px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: #fff;
+      padding: 20px 20px 16px;
+    }
+    .header h1 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .header p { font-size: 13px; opacity: 0.85; }
+    .content { padding: 16px 20px; }
+    .section { margin-bottom: 16px; }
+    .section-title {
+      font-size: 12px; font-weight: 600; color: #666;
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+    }
+    .site-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .site-tag {
+      display: inline-block; padding: 4px 10px;
+      background: #e8f0fe; color: #1a73e8;
+      border-radius: 12px; font-size: 12px;
+    }
+    .site-tag.generic { background: #f5f5f5; color: #757575; }
+    .usage {
+      background: #f8f9fa; border-radius: 8px; padding: 12px 16px;
+    }
+    .usage ol { padding-left: 20px; margin: 0; }
+    .usage li { margin-bottom: 6px; line-height: 1.5; font-size: 13px; color: #333; }
+    .usage li:last-child { margin-bottom: 0; }
+    .btn-print-now {
+      display: block; width: 100%; padding: 12px;
+      background: #1a73e8; color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s; text-align: center;
+    }
+    .btn-print-now:hover { background: #1557b0; }
+    .btn-print-now:disabled { background: #bdbdbd; cursor: not-allowed; }
+    .status { text-align: center; padding: 8px; font-size: 12px; color: #666; }
+    .status.detected { color: #1e7e34; }
+    .status.not-detected { color: #856404; }
+    .footer {
+      border-top: 1px solid #f0f0f0;
+      padding: 12px 20px; text-align: center;
+      font-size: 11px; color: #bdbdbd;
+    }
+    .shortcut {
+      display: inline-block; padding: 2px 6px;
+      background: #f0f0f0; border-radius: 4px;
+      font-family: monospace; font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1 id="popupTitle">🖨️ AI Chat Print Assistant</h1>
+    <p id="popupSubtitle">Print clean chat records in one click</p>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div id="status" class="status">Detecting current page...</div>
+    </div>
+
+    <div class="section">
+      <button id="printNow" class="btn-print-now">🖨️ Print Current Chat</button>
+    </div>
+
+    <div class="section">
+      <div id="usageTitle" class="section-title">How to Use</div>
+      <div class="usage">
+        <ol id="usageList">
+          <li id="usageStep1">Open any AI chat page (ChatGPT, Claude, Google AI Mode, etc.)</li>
+          <li id="usageStep2">Click the 🖨️ floating button at bottom-right corner</li>
+          <li id="usageStep3">Click "Print Document" on the preview page</li>
+          <li id="usageStep4">Or use <span class="shortcut">Ctrl+P</span> keyboard shortcut</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <div id="supportedSitesTitle" class="section-title">Supported Sites</div>
+      <div class="site-list" id="siteList"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    AI Chat Print Assistant v1.0.0
+  </div>
+
+  <script src="sites.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
