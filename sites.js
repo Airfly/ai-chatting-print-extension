@@ -91,7 +91,7 @@ function googleAiSanitizeAssistant(el) {
   // 移除复制/分享等带 aria-label 或 data-tooltip 的 UI 残留
   clone.querySelectorAll('[aria-label], [data-tooltip]').forEach(n => {
     const label = (n.getAttribute('aria-label') || '') + ' ' + (n.getAttribute('data-tooltip') || '');
-    if (/复制|拷贝|cop(y|ied)|couldn.?t copy|paste|分享|share|答得好|答得不好|喜欢|不喜欢|lik(e|ed)|dislik/i.test(label)) n.remove();
+    if (/复制|拷贝|cop(y|ied)|couldn.?t copy|paste|分享|share|答得好|答得不好|喜欢|不喜欢|Good|Bad|lik(e|ed)|dislik/i.test(label)) n.remove();
   });
 
   // 移除操作栏的 SVG 图标（如复制成功的"打勾"）。
@@ -109,12 +109,13 @@ function googleAiSanitizeAssistant(el) {
   });
 
   // 移除操作栏残留的短文字（复制/剪贴板/点赞反馈等标签，
-  // 如"未能复制到剪贴板。请稍后重试。"）。仅限极短文本，避免误删正文。
+  // 如"未能复制到剪贴板。请稍后重试。" / "Failed to copy to clipboard. Try again later."）。
+  // 仅限较短文本，避免误删正文。
   Array.from(clone.querySelectorAll('*')).forEach(n => {
     if (n.childElementCount === 0) {
       const t = (n.textContent || '').trim();
-      if (t && t.length <= 40 &&
-          /复制|剪贴板|请稍后重试|答得好|答得不好|喜欢|不喜欢|cop(y|ied)|couldn.?t copy|paste|分享|share|lik(e|ed)|dislik/i.test(t) &&
+      if (t && t.length <= 60 &&
+          /复制|剪贴板|请稍后重试|答得好|答复不好|分享|cop(y|ied)|couldn.?t copy|failed to copy|try again later|clipboard|paste|share|lik(e|ed)|dislik|good (re)?sponse|bad (re)?sponse|feedback/i.test(t) &&
           !/<|>/.test(t)) {
         n.remove();
       }
@@ -333,7 +334,7 @@ const CHAT_SITES = [
   // AI 回复：每轮在 [data-subtree="aimc"] 中，正文块为
   //   [data-xid="VpUvz"] / [jsname="KFl8ub"] / .Y3BBE。
   {
-    name: 'Google AI 搜索',
+    name: 'Google AI search',
     hostnames: ['www.google.com'],
     containerSelector: ['[data-subtree="aimc"]'],
     customContainerFinder: function () {

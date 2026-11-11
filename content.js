@@ -387,9 +387,13 @@
     const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-    const roleUser = i18n('roleUser');
-    const roleAssistant = i18n('roleAssistant');
-    const roleMessage = i18n('roleMessage');
+    // 角色标签跟随聊天页面语言（而非浏览器界面语言）：
+    // 英文页面显示 User / AI / Message，其余语言使用扩展本地化文案
+    const pageLang = (document.documentElement.lang || navigator.language || '').toLowerCase();
+    const isEnPage = pageLang.startsWith('en');
+    const roleUser = isEnPage ? '🧑 User' : i18n('roleUser');
+    const roleAssistant = isEnPage ? '🤖 AI' : i18n('roleAssistant');
+    const roleMessage = isEnPage ? '💬 Message' : i18n('roleMessage');
     const msgCount = i18n('msgCount', String(result.messages.length));
     const btnPrintDoc = i18n('btnPrintDoc');
     const previewTitle = i18n('previewTitle');
@@ -408,7 +412,7 @@
     }).join('\n');
 
     return `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="${isEnPage ? 'en' : 'zh-CN'}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
